@@ -5,7 +5,9 @@ from users.factories import UsersFactory
 
 @pytest.mark.django_db
 class TestUsersViewSet:
-    def setup_method(self):
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
         self.client = APIClient()
 
     def test_list_users(self):

@@ -5,6 +5,7 @@ from users.models import Users
 class TweetsSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField()
     username = serializers.CharField(source='user.username', read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Tweets
