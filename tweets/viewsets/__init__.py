@@ -1,1 +1,1 @@
-from .tweets_viewset import TweetViewSet
+from .tweets_viewset import TweetsViewSet

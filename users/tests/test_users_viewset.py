@@ -31,3 +31,11 @@ class TestUsersViewSet:
         response = self.client.post("/api/users/", data=payload)
         assert response.status_code == 201
         assert Users.objects.filter(username="novousuario").exists()
+
+    def test_get_me(self):
+        user = UsersFactory(username="joao", password="123")
+        self.client.login(username="joao", password="123")
+        response = self.client.get("/api/users/me/")
+        assert response.status_code == 200
+        assert response.data["username"] == "joao"
+        assert response.data["id"] == user.id
