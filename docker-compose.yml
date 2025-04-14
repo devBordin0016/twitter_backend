@@ -12,7 +12,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U twitter_dev -d twitter_dev_db"]
+      test: ["CMD-SHELL", "pg_isready -U twitter_dev -d twitter_db"]
       interval: 5s
       timeout: 3s
       retries: 5

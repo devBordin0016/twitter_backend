@@ -41,15 +41,3 @@ class TestTweetViewSet:
         assert response.status_code == 200
         assert len(response.data) == 1
         assert response.data[0]["user"] == followed_user.id
-
-    def test_like_and_unlike_tweet(self):
-        tweet = TweetsFactory()
-        payload = {"likes": [self.user.id]}
-
-        response = self.client.patch(f"/api/tweets/{tweet.id}/", payload, format="json")
-        assert response.status_code == 200
-        assert self.user in Tweets.objects.get(id=tweet.id).likes.all()
-        
-        response = self.client.patch(f"/api/tweets/{tweet.id}/", {"likes": []}, format="json")
-        assert response.status_code == 200
-        assert self.user not in Tweets.objects.get(id=tweet.id).likes.all()

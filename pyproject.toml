@@ -18,6 +18,7 @@ psycopg2-binary = "^2.9.10"
 whitenoise = "5.3.0"
 gunicorn = "^23.0.0"
 gitpython = "^3.1.44"
+django-cors-headers = "^3.13.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-django = "^4.11.1"
