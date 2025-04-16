@@ -12,13 +12,18 @@ Este é o back-end de um projeto estilo Twitter, desenvolvido com Django e Djang
 - Docker (opcional)
 - Pytest + Factory Boy (para testes)
 
+### Autenticação com JWT
+
+O sistema utiliza JWT (JSON Web Token) para autenticação. Para obter o token JWT, é necessário fazer login com o endpoint `POST /api/token/`, fornecendo o `username` e `password` do usuário.
+
+
 ## Instalação
 
 Clone o repositório e entre na pasta do projeto:
 
 ```bash
-git clone https://github.com/seu-usuario/twitter-backend.git
-cd twitter-backend
+git clone https://github.com/VitorBri/twitter_back.git
+cd twitter_back
 ```
 
 ### Banco de Dados (PostgreSQL)
@@ -28,22 +33,11 @@ Este projeto utiliza PostgreSQL como banco de dados no ambiente de produção.
 ## Rodando com Docker
 
 ```bash
-docker build -t twitter-backend .
-docker run -p 8000:8000 twitter-backend
+docker build -t twitter_back .
+docker run -p 8000:8000 twitter_back
 ```
 
 A API estará disponível em: `http://localhost:8000/api/`
-
----
-
-## Rodando com Poetry (sem Docker)
-
-```bash
-poetry install
-poetry shell
-python manage.py migrate
-python manage.py runserver
-```
 
 ---
 
@@ -53,7 +47,6 @@ python manage.py runserver
 - `POST /api/token/` - Obtenção do token JWT
 - `GET /api/tweets/` - Lista todos os tweets
 - `POST /api/tweets/` - Cria um novo tweet
-- `PATCH /api/tweets/<id>/like/` - Curte/Descurte um tweet
 - `GET /api/tweets/following/` - Lista tweets de usuários seguidos
 - `POST /api/follows/` - Segue um usuário
 - `GET /api/follows/` - Lista quem você está seguindo
@@ -67,7 +60,7 @@ Os testes automatizados estão organizados por app, dentro das pastas `tests/`.
 Para rodar:
 
 ```bash
-pytest
+poetry run pytest
 ```
 
 ---
