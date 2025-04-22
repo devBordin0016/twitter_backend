@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from tweets.models import Tweets
-from tweets.serializers import TweetsSerializer
+from tweets.models import Tweets, Comments
+from tweets.serializers import TweetsSerializer, CommentsSerializer
 from follows.models import Follows
 
 class TweetsViewSet(viewsets.ModelViewSet):
@@ -19,3 +19,25 @@ class TweetsViewSet(viewsets.ModelViewSet):
         tweets = Tweets.objects.filter(user_id__in=following_ids).order_by("-created_at")
         serializer = self.get_serializer(tweets, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=["post"], permission_classes=[permissions.IsAuthenticated])
+    def like(self, request, pk=None):
+        tweet = self.get_object()
+        user = request.user
+        if tweet.likes.filter(id=user.id).exists():
+            tweet.likes.remove(user)
+            return Response({'status': 'unliked'})
+        else:
+            tweet.likes.add(user)
+            return Response({'status': 'liked'})
+        
+class CommentsViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentsSerializer
+
+    def get_queryset(self):
+        tweet_id = self.kwargs['tweet_id']
+        return Comments.objects.filter(tweet_id=tweet_id)
+
+    def perform_create(self, serializer):
+        tweet = Tweets.objects.get(id=self.kwargs['tweet_id'])
+        serializer.save(tweet=tweet, user=self.request.user)
