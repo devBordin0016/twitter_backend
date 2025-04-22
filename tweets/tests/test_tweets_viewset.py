@@ -5,6 +5,7 @@ from tweets.factories import TweetsFactory
 from users.factories import UsersFactory
 from follows.factories import FollowsFactory
 
+
 @pytest.mark.django_db
 class TestTweetViewSet:
 
@@ -41,3 +42,22 @@ class TestTweetViewSet:
         assert response.status_code == 200
         assert len(response.data) == 1
         assert response.data[0]["user"] == followed_user.id
+
+    def test_like_tweet(self):
+        tweet = TweetsFactory()
+        response = self.client.post(f"/api/tweets/{tweet.id}/like/")
+        assert response.status_code == 200
+        assert response.data["status"] == "liked"
+
+        response = self.client.post(f"/api/tweets/{tweet.id}/like/")
+        assert response.status_code == 200
+        assert response.data["status"] == "unliked"
+
+    def test_create_comment(self):
+        tweet = TweetsFactory()
+        payload = {
+            "content": "Comentando aqui!",
+            "tweet": tweet.id,
+        }
+        response = self.client.post(f"/api/tweets/{tweet.id}/comments/", payload)
+        assert response.status_code == 201
