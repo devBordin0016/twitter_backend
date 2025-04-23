@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -33,11 +34,13 @@ class TweetsViewSet(viewsets.ModelViewSet):
         
 class CommentsViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         tweet_id = self.kwargs['tweet_id']
-        return Comments.objects.filter(tweet_id=tweet_id)
+        return Comments.objects.filter(tweet_id=tweet_id).order_by('-created_at')
 
     def perform_create(self, serializer):
-        tweet = Tweets.objects.get(id=self.kwargs['tweet_id'])
-        serializer.save(tweet=tweet, user=self.request.user)
+        tweet_id = self.kwargs.get("tweet_id")
+        tweet = get_object_or_404(Tweets, id=tweet_id)
+        serializer.save(user=self.request.user, tweet=tweet)
