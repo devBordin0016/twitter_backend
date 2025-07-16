@@ -166,6 +166,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://seu-frontend.vercel.app",  # Substitua pela URL do Vercel
+    "https://twitter-frontend-inky.vercel.app",  # Substitua pela URL do Vercel
     "http://localhost:3000",  # Para desenvolvimento local
 ]
