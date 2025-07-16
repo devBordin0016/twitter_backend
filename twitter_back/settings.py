@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-3i96pmw183(#@fes!fwnf)ex(&3mub-6ij*1v4&!*lwr%3mljv"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'VitorBri.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'DevBordin.pythonanywhere.com']
 
 # Application definition
 
@@ -163,4 +163,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    "https://seu-frontend.vercel.app",  # Substitua pela URL do Vercel
+    "http://localhost:3000",  # Para desenvolvimento local
+]
